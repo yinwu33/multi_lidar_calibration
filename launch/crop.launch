@@ -4,7 +4,6 @@
         <param name="mode" value="single"/>
         <param name="input_topic" value="/lidar_0/lidar_node/pointcloud"/>
         <param name="output_topic" value="/lidar_0/pointcloud_filtered"/>
-        <param name="time_offset" value="0.0"/>
 
         <node pkg="multi_lidar_calibration" type="cloud_cropper_node" name="cloud_cropper_node" output="screen"/>
         <node pkg="multi_lidar_calibration" type="cloud_crop_helper.py" name="cloud_crop_help" output="screen"/>
