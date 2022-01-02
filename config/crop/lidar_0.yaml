@@ -1,0 +1,28 @@
+input_topic: "/lidar_0/lidar_node/pointcloud"
+
+output_topic: "/lidar_0/pointcloud_filtered"
+
+boxes:
+  box0:
+    x: -2.69
+    y: -0.50
+    z: -0.81
+    a: 0.19
+    b: 0.86
+    c: 0.55
+
+  box1:
+    x: -2.89
+    y: 1.33
+    z: -0.82
+    a: 0.28
+    b: 0.27
+    c: 1.40
+
+  box3:
+    x: 2.35
+    y: 0.18
+    z: 0.56
+    a: 0.52
+    b: 0.56
+    c: 0.37

@@ -8,9 +8,17 @@ namespace multi_lidar_calibration
 {
 class ICPRegistration : public Registration {
 public:
-    typedef pcl::PointXYZ POINT;
-    typedef pcl::PointCloud<POINT> CLOUD;
-    typedef pcl::PointCloud<POINT>::Ptr CLOUD_Ptr;
+    ICPRegistration(const std::string& config_file);
+
+    virtual void InitParameters() override;
+
+    virtual void Match(CLOUD_Ptr input_source, CLOUD_Ptr input_target, Eigen::Matrix4f guess, CLOUD_Ptr output_cloud) override;
+
+    virtual bool IsConverged() override;
+
+    inline virtual double Score() override { return icp_ptr_->getFitnessScore(); }
+
+    virtual Eigen::Matrix4f ResultPose() override { return icp_ptr_->getFinalTransformation(); }
 
 private:
     pcl::IterativeClosestPoint<POINT, POINT>::Ptr icp_ptr_;

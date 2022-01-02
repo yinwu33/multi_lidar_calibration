@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.2)
 project(multi_lidar_calibration)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++14)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -13,7 +13,12 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
   std_msgs
+  message_filters
+  tf2_ros
+  tf2_eigen
 )
+
+include(cmake/YAML.cmake)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -118,7 +123,7 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+include
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -135,8 +140,17 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/multi_lidar_calibration_node.cpp)
+set(TARGET_SOURCE src/calibration_node.cpp
+                  src/lidar_calibration.cpp
+                  src/models/icp_registration.cpp)
 
+set(CLOUD_CROPPER_SOURCE src/utils/cloud_cropper/cloud_cropper.cpp 
+                         src/utils/cloud_cropper/cloud_cropper_node.cpp)
+
+add_executable(${PROJECT_NAME}_node ${TARGET_SOURCE})
+target_link_libraries(${PROJECT_NAME}_node
+  ${catkin_LIBRARIES} ${ALL_TARGET_LIBRARIES}
+)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -148,10 +162,12 @@ include_directories(
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_node
-#   ${catkin_LIBRARIES}
-# )
 
+
+add_executable(cloud_cropper_node ${CLOUD_CROPPER_SOURCE})
+target_link_libraries(cloud_cropper_node
+  ${catkin_LIBRARIES} ${ALL_TARGET_LIBRARIES}
+)
 #############
 ## Install ##
 #############
@@ -161,10 +177,10 @@ include_directories(
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# catkin_install_python(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+catkin_install_python(PROGRAMS
+  scripts/cloud_crop_helper.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html

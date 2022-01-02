@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+  <param name="use_sim_time" value="true"/>
+
+
+  <!-- 1 - 0 -->
+  <group ns="lidar_1">
+      <param name="config" value="$(find multi_lidar_calibration)/config/crop/lidar_1.yaml"/>
+      <param name="mode" value="multi"/>
+
+      <node pkg="multi_lidar_calibration" type="cloud_cropper_node" name="cloud_cropper_node" output="screen"/>
+  </group>
+
+  <group ns="lidar_0">
+      <param name="config" value="$(find multi_lidar_calibration)/config/crop/lidar_0.yaml"/>
+      <param name="mode" value="multi"/>
+      
+      <node pkg="multi_lidar_calibration" type="cloud_cropper_node" name="cloud_cropper_node" output="screen"/>
+  </group>
+
+
+  <node pkg="multi_lidar_calibration" type="multi_lidar_calibration_node" name="multi_lidar_calibration_node" output="screen">
+    <param name="parent_cloud_name" value="/lidar_0/pointcloud_filtered"/>
+    <param name="child_cloud_name" value="/lidar_1/pointcloud_filtered"/>
+    <param name="voxel_size" value="-1"/>
+
+    <param name="method" value="ICP"/>
+    <param name="config_file" value="/home/ubuntu/Data/workspace/github_projects/lidar_calibration/src/multi_lidar_calibration/config/icp.yaml"/>
+  </node>
+</launch>

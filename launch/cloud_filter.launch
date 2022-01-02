@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- 1 - 0 -->
+    <group ns="lidar_1">
+        <param name="config" value="$(find multi_lidar_calibration)/config/crop/lidar_1.yaml"/>
+        <param name="mode" value="multi"/>
+
+        <node pkg="multi_lidar_calibration" type="cloud_cropper_node" name="cloud_cropper_node" output="screen"/>
+    </group>
+
+    <group ns="lidar_0">
+        <param name="config" value="$(find multi_lidar_calibration)/config/crop/lidar_0.yaml"/>
+        <param name="mode" value="multi"/>
+        
+        <node pkg="multi_lidar_calibration" type="cloud_cropper_node" name="cloud_cropper_node" output="screen"/>
+    </group>
+</launch>

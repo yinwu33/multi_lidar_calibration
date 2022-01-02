@@ -1,0 +1,28 @@
+input_topic: "/lidar_1/lidar_node/pointcloud"
+
+output_topic: "/lidar_1/pointcloud_filtered"
+
+boxes:
+  box_0:  # chessboard
+    x: -2.31
+    y: -1.06
+    z: -0.04
+    a: 1.10
+    b: 0.55
+    c: 0.43
+
+  box_1:  # back
+    x: -3.45
+    y: 0.03
+    z: -0.01
+    a: 1.97
+    b: 0.55
+    c: 1.02
+
+  box_2:  # plane
+    x: 1.47
+    y: 2.75
+    z: -0.34
+    a: 0.56
+    b: 1.85
+    c: 0.50
