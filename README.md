@@ -1,7 +1,5 @@
 # Multi Lidar Calibration
 
-![image1](docs/calibrated_original.png)
-
 ## Usage
 
 ### Step 1. segment significant parts of cloud
@@ -100,7 +98,11 @@ boxes:
 
 1. `roslaunch multi_lidar_calibration calibration.launch` to start
 
+The registration process is actually based on these point cloud:
 ![calibrated_segmented](docs/calibrated_segmented.png)
+
+And this is the whole point cloud:
+![image1](docs/calibrated_original.png)
 
 ### Result
 
